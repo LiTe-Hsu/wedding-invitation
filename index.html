@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>立德 & 心怡 | 婚禮邀請</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wine-dark:#3a1420;
+    --wine:#5c1f2e;
+    --blush:#f4dfe0;
+    --rose:#c98a92;
+    --rose-deep:#a5626c;
+    --cream:#faf4ec;
+    --sage:#9caf88;
+    --gold:#c9a227;
+    --ink:#4a3b36;
+    --ink-soft:#7d6a63;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Noto Sans TC','Noto Serif TC',serif;
+    background:#efe4d9;
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+  .serif{font-family:'Noto Serif TC',serif;}
+  .script{font-family:'Cormorant Garamond',serif;font-style:italic;}
+
+  /* 頁面外框：左右留白，內容集中顯示 */
+  .page-frame{
+    max-width:760px; margin:0 auto;
+    background-color:var(--cream);
+    box-shadow:0 0 70px rgba(90,30,45,.08);
+    position:relative;
+    overflow:hidden;
+  }
+  /* 背景圖垂直重複拼接、隨內容一起捲動，透明度 10%（用偽元素呈現，才不會連文字都變淡） */
+  .page-frame::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:url('background.png');
+    background-repeat:repeat-y;
+    background-size:100% auto;
+    background-position:top center;
+    opacity:0.15;
+    z-index:0;
+    pointer-events:none;
+  }
+
+  /* ---- 背景音樂播放鈕（開啟喜帖後才出現） ---- */
+  #musicBtn{
+    position:fixed; bottom:22px; right:16px; z-index:90;
+    width:44.8px; height:44.8px; border-radius:50%; border:none; cursor:pointer;
+    background:linear-gradient(160deg, var(--blush), var(--rose));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 22px rgba(165,98,108,.4);
+    transition:transform .2s ease, opacity .5s ease;
+    opacity:0; pointer-events:none;
+  }
+  #musicBtn.visible{ opacity:1; pointer-events:auto; }
+  #musicBtn:hover{ transform:scale(1.07); }
+  #musicBtn .eq{ display:none; align-items:flex-end; gap:2.4px; height:14px; }
+  #musicBtn .eq span{ width:2.4px; background:var(--rose-deep); border-radius:2px; height:5px; }
+  #musicBtn.playing .eq{ display:flex; }
+  #musicBtn.playing .note-icon{ display:none; }
+  #musicBtn.playing .eq span{ animation:eqBounce .9s ease-in-out infinite; }
+  #musicBtn.playing .eq span:nth-child(1){ animation-delay:0s; }
+  #musicBtn.playing .eq span:nth-child(2){ animation-delay:.2s; }
+  #musicBtn.playing .eq span:nth-child(3){ animation-delay:.4s; }
+  @keyframes eqBounce{ 0%,100%{ height:5px; } 50%{ height:14px; } }
+  #musicBtn .note-icon{ color:var(--rose-deep); font-size:18px; line-height:1; }
+
+  /* ---- 主頁面飄落花瓣 ---- */
+  #petal-layer{ position:fixed; inset:0; pointer-events:none; z-index:40; overflow:hidden; }
+  .petal{ position:absolute; top:-40px; opacity:.85; animation-name:fall; animation-timing-function:linear; animation-iteration-count:infinite; }
+  .petal svg{display:block;}
+  @keyframes fall{ 0%{ transform:translate(0,-10vh) rotate(0deg); } 100%{ transform:translate(var(--drift,40px), 110vh) rotate(360deg); } }
+
+  /* ---- 封面 ---- */
+  #cover{
+    position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center;
+    background: radial-gradient(ellipse at 50% 0%, var(--wine) 0%, var(--wine-dark) 65%);
+    transition:transform 1s cubic-bezier(.65,0,.35,1), opacity 1s ease; overflow:hidden;
+  }
+  #cover.opened{ transform:translateY(-100%); opacity:0; pointer-events:none; }
+
+  /* 封面持續飄落的玫瑰花瓣 */
+  #coverPetals{ position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
+
+  .cover-frame{
+    text-align:center; padding:60px 46px; background:linear-gradient(160deg, #fff 0%, var(--cream) 100%);
+    border-radius:6px; position:relative; max-width:400px; width:88%; box-shadow:0 30px 60px rgba(0,0,0,.35);
+    overflow:visible; transition:transform .6s ease, opacity .5s ease; z-index:2;
+  }
+  #cover.burst .cover-frame{ transform:scale(1.06); opacity:0; }
+  .cover-eyebrow{ font-size:13px; letter-spacing:.35em; color:var(--rose-deep); margin-bottom:18px; position:relative; z-index:2;}
+  .cover-names{ font-size:2.5rem; color:var(--ink); margin-bottom:6px; position:relative; z-index:2;}
+  .cover-amp{ color:var(--gold); font-size:1.6rem; display:block; margin:2px 0; }
+  .cover-date{ font-size:1rem; letter-spacing:.15em; color:var(--ink-soft); margin-bottom:24px; position:relative; z-index:2;}
+  .cover-invite{ font-size:.95rem; color:var(--ink-soft); margin-bottom:6px; position:relative; z-index:2;}
+  .cover-line{ font-size:.9rem; color:var(--ink-soft); margin-bottom:30px; position:relative; z-index:2;}
+
+  /* 開啟喜帖按鈕：左至右光影掃過 */
+  .open-btn{
+    font-family:'Noto Serif TC',serif; background:var(--rose-deep); border:none; color:#fff;
+    padding:14px 40px; border-radius:999px; font-size:.95rem; letter-spacing:.2em; cursor:pointer;
+    transition:.3s; position:relative; z-index:2; box-shadow:0 10px 26px rgba(165,98,108,.4);
+    overflow:hidden;
+  }
+  .open-btn::after{
+    content:""; position:absolute; top:0; left:-60%; width:45%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,.65), transparent);
+    transform:skewX(-20deg); animation:btnShine 2.6s ease-in-out infinite;
+  }
+  @keyframes btnShine{ 0%{ left:-60%; } 45%{ left:130%; } 100%{ left:130%; } }
+  .open-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 30px rgba(165,98,108,.5); }
+
+  /* 圓圈愛心：像心臟一樣微微跳動 */
+  .seal{
+    width:52px; height:52px; margin:0 auto 20px; border-radius:50%;
+    background:linear-gradient(160deg, var(--rose-deep), var(--wine)); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:22px; position:relative; z-index:2;
+    box-shadow:0 4px 14px rgba(90,30,45,.5);
+    animation:heartbeat 1.8s ease-in-out infinite;
+  }
+  @keyframes heartbeat{
+    0%,100%{ transform:scale(1); }
+    15%{ transform:scale(1.14); }
+    30%{ transform:scale(1); }
+    45%{ transform:scale(1.09); }
+    60%{ transform:scale(1); }
+  }
+  /* 點擊開啟：圓圈愛心放大50%後縮小消失 */
+  #cover.burst .seal{ animation:sealBurst .6s ease forwards; }
+  @keyframes sealBurst{
+    0%{ transform:scale(1); opacity:1; }
+    40%{ transform:scale(1.5); opacity:1; }
+    100%{ transform:scale(0); opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){ .petal, .seal, .open-btn::after{ animation:none; } }
+
+  /* ---- 通用區塊 ---- */
+  main{ position:relative; z-index:1; }
+  section{ padding:100px 24px; max-width:760px; margin:0 auto; text-align:center; }
+  .section-title{ font-size:1.6rem; margin-bottom:8px; }
+  .section-sub{ font-size:.85rem; letter-spacing:.3em; color:var(--rose-deep); margin-bottom:36px; }
+  .corner-deco{ position:absolute; width:220px; height:220px; pointer-events:none; opacity:.85; z-index:0; }
+  .corner-deco.tl{ top:-20px; left:-40px; }
+  .corner-deco.br{ bottom:-20px; right:-40px; transform:rotate(180deg); }
+
+  /* ---- 家族介紹 (Hero) ---- */
+  .family-hero{ position:relative; padding-top:130px; overflow:hidden; }
+  .fh-labels{ position:relative; z-index:2; margin-bottom:34px; }
+  .fh-role{ font-size:.85rem; letter-spacing:.3em; color:var(--rose-deep); margin-top:14px; }
+  .fh-name{ font-size:1.7rem; color:var(--ink); }
+  .fh-photos{ position:relative; z-index:2; display:flex; flex-wrap:wrap; justify-content:center; gap:22px; margin-top:10px; }
+  .photo-frame{
+    width:220px; height:290px; border-radius:6px; overflow:hidden; background:#fff;
+    box-shadow:0 18px 40px rgba(165,98,108,.18); border:6px solid #fff; position:relative;
+  }
+  .photo-frame:nth-child(1){ transform:rotate(-3deg); }
+  .photo-frame:nth-child(2){ transform:rotate(3deg) translateY(20px); }
+  .photo-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ---- 婚禮資訊 ---- */
+  .parents-grid{ display:flex; justify-content:center; gap:80px; margin-bottom:34px; flex-wrap:wrap; }
+  .parents-label{ font-size:.8rem; color:var(--rose-deep); letter-spacing:.2em; margin-bottom:8px; }
+  .parents-name{ font-size:1.05rem; color:var(--ink); }
+  .announce-text{ color:var(--ink-soft); font-size:.95rem; line-height:1.9; margin-bottom:40px; }
+  .couple-names{ display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .cn-role{ font-size:.85rem; letter-spacing:.25em; color:var(--rose-deep); margin-top:14px; }
+  .cn-name{ font-size:2rem; color:var(--ink); }
+  .cn-amp{ font-size:1.6rem; color:var(--gold); margin:6px 0; }
+
+  /* ---- 相簿 ---- */
+  .gallery-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; position:relative; z-index:2; }
+  .gallery-item{
+    aspect-ratio:1/1; border-radius:10px; overflow:hidden; background:linear-gradient(150deg,var(--blush),#fff);
+    display:flex; align-items:center; justify-content:center; box-shadow:0 10px 26px rgba(165,98,108,.12);
+    position:relative;
+  }
+  .gallery-item img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .gallery-item{ cursor:pointer; transition:transform .3s ease; }
+  .gallery-item:hover{ transform:scale(1.03); }
+  .gallery-placeholder-icon{ color:var(--rose); opacity:.5; }
+  .gallery-more-badge{
+    position:absolute; top:10px; right:10px; background:rgba(20,8,10,.55); color:#fff;
+    font-size:.8rem; font-weight:600; padding:3px 10px; border-radius:999px; letter-spacing:.05em;
+    pointer-events:none;
+  }
+
+  /* ---- 相簿燈箱／幻燈片 ---- */
+  #lightbox{
+    position:fixed; inset:0; z-index:80; background:rgba(20,8,10,.92);
+    display:none; align-items:center; justify-content:center; flex-direction:column;
+  }
+  #lightbox.open{ display:flex; }
+  .lb-counter{ color:#f0d9db; font-size:.85rem; letter-spacing:.15em; margin-bottom:14px; }
+  .lb-stage{ position:relative; display:flex; align-items:center; justify-content:center; max-width:90vw; }
+  .lb-stage img{ max-width:82vw; max-height:64vh; border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,.5); }
+  .lb-close{
+    position:absolute; top:-46px; right:0; background:none; border:none; color:#fff;
+    font-size:1.8rem; line-height:1; cursor:pointer; z-index:2;
+  }
+  .lb-arrow{
+    background:rgba(255,255,255,.12); border:none; color:#fff; width:44px; height:44px; border-radius:50%;
+    font-size:1.4rem; cursor:pointer; flex:none; transition:.2s;
+  }
+  .lb-arrow:hover{ background:rgba(255,255,255,.25); }
+  .lb-arrow.prev{ margin-right:14px; }
+  .lb-arrow.next{ margin-left:14px; }
+  .lb-thumbs{ display:flex; gap:10px; margin-top:20px; max-width:90vw; overflow-x:auto; padding-bottom:4px; }
+  .lb-thumb{ width:52px; height:52px; border-radius:6px; overflow:hidden; opacity:.5; cursor:pointer; border:2px solid transparent; transition:.2s; flex:none; }
+  .lb-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .lb-thumb.active{ opacity:1; border-color:var(--gold); }
+
+  /* ---- 婚宴資訊 ---- */
+  .lead-text{ color:var(--ink-soft); margin-bottom:26px; }
+  .reception-times{ display:flex; justify-content:center; gap:50px; margin-bottom:30px; }
+  .rt-label{ display:block; font-size:.8rem; color:var(--rose-deep); letter-spacing:.2em; margin-bottom:6px; }
+  .rt-time{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.6rem; color:var(--ink); }
+  .date-display{ display:flex; align-items:baseline; justify-content:center; gap:14px; margin-bottom:6px; }
+  .dow{ font-size:.9rem; color:var(--ink-soft); letter-spacing:.1em; }
+  .day-num{ font-size:2.6rem; color:var(--rose-deep); }
+  .month{ font-size:.95rem; color:var(--ink-soft); }
+  .year-display{ font-size:1.1rem; color:var(--ink-soft); margin-bottom:6px; }
+  .lunar-display{ font-size:.85rem; color:var(--ink-soft); margin-bottom:30px; }
+  .countdown{ font-size:1rem; color:var(--rose-deep); letter-spacing:.05em; margin-bottom:36px; }
+  .mini-calendar{ max-width:340px; margin:0 auto; background:#fff; border-radius:14px; padding:20px; box-shadow:0 10px 30px rgba(165,98,108,.1); }
+  .mc-title{ font-size:.9rem; color:var(--ink-soft); margin-bottom:14px; letter-spacing:.1em; }
+  .mc-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+  .mc-head{ font-size:.75rem; color:var(--ink-soft); padding-bottom:6px; }
+  .mc-day{ font-size:.85rem; padding:7px 0; border-radius:6px; color:var(--ink); }
+  .mc-day.mc-highlight{ background:var(--rose-deep); color:#fff; font-weight:700; }
+  .mc-day.mc-empty{ visibility:hidden; }
+
+  /* ---- 婚宴地點 ---- */
+  .venue-card{ background:#fff; border-radius:14px; padding:34px 28px; box-shadow:0 10px 30px rgba(165,98,108,.08); position:relative; z-index:2; }
+  .venue-name{ font-size:1.25rem; margin-bottom:8px; }
+  .venue-addr{ color:var(--ink-soft); font-size:.95rem; margin-bottom:22px; }
+  .map-embed{ border-radius:10px; overflow:hidden; }
+  .map-embed iframe{ width:100%; height:280px; border:0; display:block; }
+
+  /* ---- 賓客留言 ---- */
+  .messages-list{
+    max-height:480px; overflow-y:auto; text-align:left; display:flex; flex-direction:column; gap:14px;
+    padding-right:6px;
+  }
+  .message-card{
+    background:#fff; border-radius:12px; padding:16px 20px; box-shadow:0 6px 18px rgba(165,98,108,.08);
+  }
+  .message-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:6px; flex-wrap:wrap; }
+  .message-name{ font-weight:600; color:var(--rose-deep); font-size:.98rem; }
+  .message-time{ font-size:.75rem; color:var(--ink-soft); white-space:nowrap; }
+  .message-text{ color:var(--ink); font-size:.92rem; line-height:1.6; }
+  .messages-empty{ color:var(--ink-soft); font-size:.9rem; }
+
+  /* ---- 結語 ---- */
+  .closing-flower{ color:var(--gold); font-size:1.8rem; margin-bottom:18px; }
+  .closing-text{ font-size:1.25rem; color:var(--ink); }
+
+  /* ---- 賓客留言區：已改回透明背景，跟其他區塊一樣透出花卉背景圖 ---- */
+
+  footer{ text-align:center; padding:40px 20px 60px; color:var(--ink-soft); font-size:.8rem; letter-spacing:.1em; position:relative; z-index:2;}
+
+  @media (max-width:520px){
+    .photo-frame{ width:160px; height:220px; }
+    .parents-grid{ gap:40px; }
+    .reception-times{ gap:30px; }
+    section{ padding:70px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="petal-layer"></div>
+
+<!-- 背景音樂播放鈕：固定在右下角 -->
+<audio id="bgm" loop preload="auto">
+  <!-- 請將下面的路徑換成你自己的背景音樂檔案 -->
+  <source src="music/wedding-bgm.mp3" type="audio/mpeg">
+</audio>
+<button id="musicBtn" aria-label="播放或暫停背景音樂">
+  <span class="eq"><span></span><span></span><span></span></span>
+  <span class="note-icon">&#9834;</span>
+</button>
+
+<!-- 封面 -->
+<div id="cover">
+  <div id="coverPetals"></div>
+  <div class="cover-frame">
+    <div class="seal">&#10084;</div>
+    <div class="cover-eyebrow">WEDDING INVITATION</div>
+    <div class="cover-names serif">立德<span class="cover-amp">&amp;</span>心怡</div>
+    <div class="cover-date script">2026 . 09 . 12</div>
+    <div class="cover-invite">敬邀</div>
+    <div class="cover-line">蒞臨參加我們的婚宴</div>
+    <button class="open-btn" id="openBtn">開 啟 喜 帖</button>
+  </div>
+</div>
+
+<div class="page-frame">
+<main>
+
+  <!-- 家族介紹 -->
+  <section class="family-hero">
+    <div class="fh-labels">
+      <div class="fh-role">叁男</div>
+      <div class="fh-name serif">許立德</div>
+      <div class="fh-role">叁女</div>
+      <div class="fh-name serif">張心怡</div>
+    </div>
+    <div class="fh-photos">
+      <div class="photo-frame">
+        <img src="https://placehold.co/440x580/f4dfe0/a5626c?text=新人照片" alt="新人照片 1（請替換成實際照片）">
+      </div>
+      <div class="photo-frame">
+        <img src="https://placehold.co/440x580/f0c9cd/a5626c?text=新人照片" alt="新人照片 2（請替換成實際照片）">
+      </div>
+    </div>
+  </section>
+
+  <!-- 婚禮資訊 -->
+  <section>
+    <div class="section-sub">WEDDING</div>
+    <h2 class="section-title serif">婚禮資訊</h2>
+    <div class="parents-grid">
+      <div>
+        <div class="parents-label">家長</div>
+        <div class="parents-name">許志昌</div>
+        <div class="parents-name">詹東屘</div>
+      </div>
+      <div>
+        <div class="parents-label">家長</div>
+        <div class="parents-name">張文雄</div>
+        <div class="parents-name">陳美宏</div>
+      </div>
+    </div>
+    <p class="announce-text">謹此奉告<br>愛子 立德 與 愛女 心怡 喜結良緣</p>
+    <div class="couple-names">
+      <div class="cn-name serif">許立德</div>
+      <div class="cn-role">叁男</div>
+      <div class="cn-amp script">&amp;</div>
+      <div class="cn-name serif">張心怡</div>
+      <div class="cn-role">叁女</div>
+    </div>
+  </section>
+
+  <!-- 相簿 -->
+  <section>
+    <div class="section-sub">GALLERY</div>
+    <h2 class="section-title serif">相簿</h2>
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item" data-index="0">
+        <img src="https://placehold.co/800x800/f4dfe0/a5626c?text=相片+1" alt="相片 1（請替換成實際照片）">
+      </div>
+      <div class="gallery-item" data-index="1">
+        <img src="https://placehold.co/800x800/f0c9cd/a5626c?text=相片+2" alt="相片 2（請替換成實際照片）">
+      </div>
+      <div class="gallery-item" data-index="2">
+        <img src="https://placehold.co/800x800/f6dfe1/a5626c?text=相片+3" alt="相片 3（請替換成實際照片）">
+      </div>
+      <div class="gallery-item" data-index="3">
+        <img src="https://placehold.co/800x800/e8b4b8/a5626c?text=相片+4" alt="相片 4（請替換成實際照片）">
+        <div class="gallery-more-badge" id="galleryMoreBadge">+2</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 相簿燈箱／幻燈片 -->
+  <div id="lightbox">
+    <div class="lb-counter" id="lbCounter"></div>
+    <div class="lb-stage">
+      <button class="lb-close" id="lbClose" aria-label="關閉">&times;</button>
+      <button class="lb-arrow prev" id="lbPrev" aria-label="上一張">&#10094;</button>
+      <img id="lbImage" src="" alt="喜帖相簿照片">
+      <button class="lb-arrow next" id="lbNext" aria-label="下一張">&#10095;</button>
+    </div>
+    <div class="lb-thumbs" id="lbThumbs"></div>
+  </div>
+
+  <!-- 婚宴資訊 -->
+  <section>
+    <div class="section-sub">RECEPTION</div>
+    <h2 class="section-title serif">婚宴資訊</h2>
+    <p class="lead-text">婚宴將於以下時間舉行：</p>
+    <div class="reception-times">
+      <div><span class="rt-label">迎賓</span><span class="rt-time">12:00</span></div>
+      <div><span class="rt-label">開席</span><span class="rt-time">12:30</span></div>
+    </div>
+    <div class="date-display">
+      <span class="dow">星期六</span>
+      <span class="day-num script">12</span>
+      <span class="month">9月</span>
+    </div>
+    <div class="year-display">2026</div>
+    <div class="lunar-display">（農曆丙午年八月初二日）</div>
+    <div class="countdown" id="countdown"></div>
+    <div class="mini-calendar">
+      <div class="mc-title">2026 年 9 月</div>
+      <div class="mc-grid" id="mcGrid"></div>
+    </div>
+  </section>
+
+  <!-- 婚宴地點 -->
+  <section>
+    <div class="section-sub">VENUE</div>
+    <h2 class="section-title serif">婚宴地點</h2>
+    <div class="venue-card">
+      <div class="venue-name serif">台中金典酒店 13樓 金典宴廳</div>
+      <div class="venue-addr">台中市西區育德里健行路1049號</div>
+      <div class="map-embed">
+        <iframe id="mapFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- 賓客留言 -->
+  <section>
+    <div class="section-sub">MESSAGES</div>
+    <h2 class="section-title serif">賓客留言</h2>
+    <div class="messages-list" id="messagesList">
+      <div class="messages-empty">載入中...</div>
+    </div>
+  </section>
+
+  <!-- 結語 -->
+  <section>
+    <div class="closing-flower">&#10084;</div>
+    <p class="closing-text serif">您的蒞臨是我們最大的榮幸！</p>
+  </section>
+
+  <footer>
+    立德 &amp; 心怡 敬邀 · 2026.09.12
+  </footer>
+</main>
+</div>
+
+<!-- 賓客留言資料（獨立檔案，可單獨編輯） -->
+<script src="messages.js"></script>
+
+<script>
+  /* 賓客留言（唯讀顯示，資料來自外部 messages.js） */
+  (function renderGuestMessages(){
+    const list = document.getElementById('messagesList');
+    const data = (typeof guestMessages !== 'undefined') ? guestMessages : [];
+    if(!data.length){
+      list.innerHTML = '<div class="messages-empty">目前還沒有留言</div>';
+      return;
+    }
+    list.innerHTML = data.map(m => `
+      <div class="message-card">
+        <div class="message-head">
+          <span class="message-name">${m.name}</span>
+          <span class="message-time">${m.time}</span>
+        </div>
+        <div class="message-text">${m.text}</div>
+      </div>
+    `).join('');
+  })();
+
+  /* 留言區進入畫面可視範圍時，自動緩慢向下捲動；離開畫面就停止 */
+  (function autoScrollMessages(){
+    const listEl = document.getElementById('messagesList');
+    if(!listEl) return;
+    const sectionEl = listEl.closest('section');
+    let rafId = null;
+    let pauseTimer = null;
+
+    function step(){
+      const maxScroll = listEl.scrollHeight - listEl.clientHeight;
+      if(maxScroll <= 0){ rafId = null; return; }
+      listEl.scrollTop += 1.1;
+      if(listEl.scrollTop >= maxScroll - 1){
+        pauseTimer = setTimeout(() => {
+          listEl.scrollTop = 0;
+          pauseTimer = null;
+          rafId = requestAnimationFrame(step);
+        }, 1600);
+        rafId = null;
+        return;
+      }
+      rafId = requestAnimationFrame(step);
+    }
+
+    function start(){
+      if(!rafId && !pauseTimer){ rafId = requestAnimationFrame(step); }
+    }
+    function stop(){
+      if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+      if(pauseTimer){ clearTimeout(pauseTimer); pauseTimer = null; }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){ start(); } else { stop(); }
+      });
+    }, { threshold: 0.15 });
+
+    observer.observe(sectionEl);
+  })();
+
+  /* 背景音樂播放／暫停（開啟喜帖後才出現並播放） */
+  const musicBtn = document.getElementById('musicBtn');
+  const bgm = document.getElementById('bgm');
+  bgm.volume = 0.35; // 背景音樂音量（0.0～1.0，數值越小越小聲）
+
+  musicBtn.addEventListener('click', () => {
+    if(bgm.paused){
+      bgm.play().catch(() => {});
+      musicBtn.classList.add('playing');
+    } else {
+      bgm.pause();
+      musicBtn.classList.remove('playing');
+    }
+  });
+
+  function showMusicButtonAndPlay(){
+    musicBtn.classList.add('visible');
+    bgm.play()
+      .then(() => { musicBtn.classList.add('playing'); })
+      .catch(() => { /* 若瀏覽器仍擋下，使用者可自行點按鈕播放 */ });
+  }
+
+  /* 封面持續從上而下飄落的玫瑰花瓣 */
+  const coverPetalLayer = document.getElementById('coverPetals');
+  const rosePetalColors = ['#e8b4b8', '#c98a92', '#d9a5ab', '#f0c9cd'];
+  for(let i=0; i<14; i++){
+    const el = document.createElement('div');
+    el.className = 'petal';
+    const size = 9 + Math.random() * 9;
+    el.style.left = (Math.random()*100) + '%';
+    el.style.setProperty('--drift', ((Math.random()-0.5)*140) + 'px');
+    el.style.animationDuration = (7 + Math.random()*8) + 's';
+    el.style.animationDelay = (-Math.random()*12) + 's';
+    const color = rosePetalColors[Math.floor(Math.random()*rosePetalColors.length)];
+    el.innerHTML = `<svg width="${size}" height="${size}" viewBox="0 0 20 20">
+      <path d="M10 0 C15 0 20 5 10 20 C0 5 5 0 10 0 Z" fill="${color}"/>
+    </svg>`;
+    coverPetalLayer.appendChild(el);
+  }
+
+  /* 點擊開啟喜帖：花瓣從圓圈中心點向外散開 */
+  function burstPetalsFromSeal(){
+    const seal = document.querySelector('.seal');
+    const rect = seal.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const colors = ['#e8b4b8', '#c98a92', '#d97b8a', '#f0c9cd'];
+    const count = 18;
+    for(let i=0; i<count; i++){
+      const angle = (Math.PI * 2 * i / count) + (Math.random() * 0.35);
+      const dist = 110 + Math.random() * 160;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist;
+      const size = 10 + Math.random() * 10;
+      const color = colors[Math.floor(Math.random()*colors.length)];
+
+      const el = document.createElement('div');
+      el.style.position = 'fixed';
+      el.style.left = cx + 'px';
+      el.style.top = cy + 'px';
+      el.style.width = size + 'px';
+      el.style.height = size + 'px';
+      el.style.zIndex = '90';
+      el.style.pointerEvents = 'none';
+      el.style.transform = 'translate(-50%,-50%) scale(.4)';
+      el.style.opacity = '1';
+      el.style.transition = 'transform .7s cubic-bezier(.22,.61,.36,1), opacity .7s ease';
+      el.innerHTML = `<svg width="${size}" height="${size}" viewBox="0 0 20 20">
+        <path d="M10 0 C15 0 20 5 10 20 C0 5 5 0 10 0 Z" fill="${color}"/>
+      </svg>`;
+      document.body.appendChild(el);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          el.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1) rotate(${Math.random()*360}deg)`;
+          el.style.opacity = '0';
+        });
+      });
+      setTimeout(() => el.remove(), 750);
+    }
+  }
+
+  document.getElementById('openBtn').addEventListener('click', () => {
+    const cover = document.getElementById('cover');
+    cover.classList.add('burst');
+    burstPetalsFromSeal();
+    showMusicButtonAndPlay();
+    setTimeout(() => { cover.classList.add('opened'); }, 620);
+  });
+
+  /* 主頁面花瓣飄落 */
+  const layer = document.getElementById('petal-layer');
+  const petalColors = ['#e8b4b8', '#c98a92', '#f4dfe0', '#d9a5ab'];
+  for(let i=0; i<18; i++){
+    const el = document.createElement('div');
+    el.className = 'petal';
+    const size = 10 + Math.random() * 10;
+    el.style.left = (Math.random()*100) + 'vw';
+    el.style.setProperty('--drift', ((Math.random()-0.5)*160) + 'px');
+    el.style.animationDuration = (8 + Math.random()*10) + 's';
+    el.style.animationDelay = (-Math.random()*12) + 's';
+    const color = petalColors[Math.floor(Math.random()*petalColors.length)];
+    el.innerHTML = `<svg width="${size}" height="${size}" viewBox="0 0 20 20">
+      <path d="M10 0 C15 0 20 5 10 20 C0 5 5 0 10 0 Z" fill="${color}"/>
+    </svg>`;
+    layer.appendChild(el);
+  }
+
+  /* Google 地圖嵌入（自動編碼地址，不需要 API 金鑰） */
+  const address = '台中市西區育德里健行路1049號 台中金典酒店';
+  document.getElementById('mapFrame').src =
+    'https://www.google.com/maps?q=' + encodeURIComponent(address) + '&output=embed';
+
+  /* 倒數計時 */
+  const targetDate = new Date('2026-09-12T12:00:00+08:00');
+  const countdownEl = document.getElementById('countdown');
+  function updateCountdown(){
+    const now = new Date();
+    let diff = targetDate - now;
+    if(diff <= 0){ countdownEl.textContent = '婚禮已到來 🎉'; return; }
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff / (1000*60*60)) % 24);
+    const mins = Math.floor((diff / (1000*60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+    countdownEl.textContent = `倒數計時　${days} 天 ${hours} 時 ${mins} 分 ${secs} 秒`;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  /* 迷你日曆：2026 年 9 月，12 日標記愛心 */
+  const mcGrid = document.getElementById('mcGrid');
+  const heads = ['一','二','三','四','五','六','日'];
+  heads.forEach(h => {
+    const d = document.createElement('div');
+    d.className = 'mc-head';
+    d.textContent = h;
+    mcGrid.appendChild(d);
+  });
+  const firstDay = new Date(2026, 8, 1).getDay(); // 0=Sun..6=Sat
+  const mondayOffset = (firstDay + 6) % 7; // 0=Mon..6=Sun
+  for(let i=0; i<mondayOffset; i++){
+    const d = document.createElement('div');
+    d.className = 'mc-day mc-empty';
+    mcGrid.appendChild(d);
+  }
+  for(let day=1; day<=30; day++){
+    const d = document.createElement('div');
+    d.className = 'mc-day' + (day === 12 ? ' mc-highlight' : '');
+    d.textContent = day === 12 ? '♥' : day;
+    mcGrid.appendChild(d);
+  }
+  /* 相簿燈箱／幻燈片：共 6 張照片（相簿格子只顯示前 4 張，其餘用 +N 標籤提示） */
+  const photoUrls = [
+    'https://placehold.co/800x800/f4dfe0/a5626c?text=相片+1',
+    'https://placehold.co/800x800/f0c9cd/a5626c?text=相片+2',
+    'https://placehold.co/800x800/f6dfe1/a5626c?text=相片+3',
+    'https://placehold.co/800x800/e8b4b8/a5626c?text=相片+4',
+    'https://placehold.co/800x800/d9a5ab/a5626c?text=相片+5',
+    'https://placehold.co/800x800/e0b8c2/a5626c?text=相片+6'
+  ];
+  const galleryTileCount = document.querySelectorAll('.gallery-item').length;
+  const moreBadge = document.getElementById('galleryMoreBadge');
+  if(moreBadge){
+    const remaining = photoUrls.length - galleryTileCount;
+    if(remaining > 0){ moreBadge.textContent = '+' + remaining; }
+    else { moreBadge.style.display = 'none'; }
+  }
+
+  const lightbox = document.getElementById('lightbox');
+  const lbImage = document.getElementById('lbImage');
+  const lbCounter = document.getElementById('lbCounter');
+  const lbThumbs = document.getElementById('lbThumbs');
+  let currentIndex = 0;
+
+  photoUrls.forEach((url, i) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'lb-thumb';
+    thumb.innerHTML = `<img src="${url}" alt="縮圖 ${i+1}">`;
+    thumb.addEventListener('click', () => showSlide(i));
+    lbThumbs.appendChild(thumb);
+  });
+
+  function showSlide(i){
+    currentIndex = (i + photoUrls.length) % photoUrls.length;
+    lbImage.src = photoUrls[currentIndex];
+    lbCounter.textContent = `${currentIndex+1} / ${photoUrls.length}`;
+    document.querySelectorAll('.lb-thumb').forEach((t, idx) => {
+      t.classList.toggle('active', idx === currentIndex);
+    });
+  }
+
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const idx = parseInt(item.dataset.index, 10);
+      showSlide(idx);
+      lightbox.classList.add('open');
+    });
+  });
+
+  document.getElementById('lbClose').addEventListener('click', () => lightbox.classList.remove('open'));
+  document.getElementById('lbPrev').addEventListener('click', () => showSlide(currentIndex - 1));
+  document.getElementById('lbNext').addEventListener('click', () => showSlide(currentIndex + 1));
+  lightbox.addEventListener('click', (e) => { if(e.target === lightbox) lightbox.classList.remove('open'); });
+  document.addEventListener('keydown', (e) => {
+    if(!lightbox.classList.contains('open')) return;
+    if(e.key === 'Escape') lightbox.classList.remove('open');
+    if(e.key === 'ArrowLeft') showSlide(currentIndex - 1);
+    if(e.key === 'ArrowRight') showSlide(currentIndex + 1);
+  });
+</script>
+
+</body>
+</html>
