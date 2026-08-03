@@ -755,7 +755,9 @@
     }, { passive: true });
   })();
 
-  /* 驚喜盒：點擊時彈出視窗，隨機顯示 images/surprise/ 裡的一張圖 */
+  /* 驚喜盒：點擊時彈出視窗，隨機顯示 images/surprise/ 裡的一張圖
+     做法改成「自動偵測資料夾內實際有哪些圖片」，不再寫死張數 ——
+     這樣不管你放幾張圖、圖片編號是否連續，都能正確隨機挑選，不會挑到不存在的檔案。 */
   (function giftModal(){
     const overlay = document.getElementById('giftModalOverlay');
     const closeBtn = document.getElementById('giftModalClose');
@@ -763,11 +765,42 @@
     const stage = document.getElementById('giftStage');
     if(!overlay || !closeBtn || !modalImg || !stage) return;
 
-    const SURPRISE_IMAGE_COUNT = 10; // images/surprise/1.png ~ 10.png，請依實際圖片數量調整這個數字
+    const MAX_CHECK = 30; // 最多嘗試偵測到第幾號，涵蓋合理上限（可依需求調大）
+    const foundImages = [];
+    let detectDone = false;
+
+    function checkImage(i){
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = `images/surprise/${i}.png`;
+      });
+    }
+
+    async function detectSurpriseImages(){
+      const checks = [];
+      for(let i = 1; i <= MAX_CHECK; i++){
+        checks.push(checkImage(i).then((ok) => { if(ok) foundImages.push(i); }));
+      }
+      await Promise.all(checks);
+      foundImages.sort((a, b) => a - b);
+      detectDone = true;
+    }
+    detectSurpriseImages();
 
     function openWithRandomImage(){
-      const num = 1 + Math.floor(Math.random() * SURPRISE_IMAGE_COUNT);
-      modalImg.src = `images/surprise/${num}.png`;
+      if(foundImages.length){
+        const num = foundImages[Math.floor(Math.random() * foundImages.length)];
+        modalImg.src = `images/surprise/${num}.png`;
+      } else if(!detectDone){
+        // 圖片還在偵測中（極少見，通常瞬間就完成），先給個保底猜測
+        modalImg.src = `images/surprise/1.png`;
+      } else {
+        // 偵測完成但一張圖片都沒找到
+        modalImg.alt = '找不到 images/surprise/ 資料夾裡的圖片，請確認檔案是否已上傳';
+        modalImg.removeAttribute('src');
+      }
       overlay.classList.add('open');
     }
     function closeModal(){
