@@ -756,8 +756,11 @@
   })();
 
   /* 驚喜盒：點擊時彈出視窗，隨機顯示 images/surprise/ 裡的一張圖
-     做法改成「自動偵測資料夾內實際有哪些圖片」，不再寫死張數 ——
-     這樣不管你放幾張圖、圖片編號是否連續，都能正確隨機挑選，不會挑到不存在的檔案。 */
+     做法是「自動偵測資料夾內實際有哪些圖片」，不寫死張數 ——
+     這樣不管你放幾張圖、圖片編號是否連續，都能正確隨機挑選，不會挑到不存在的檔案。
+     這一版加了兩個保護，避免在手機上卡住轉不出結果：
+     1. 每張圖片的偵測都有逾時保護（3 秒沒回應就當作失敗），不會有單一請求卡住整批的情況
+     2. 偵測改成「頁面一載入就開始」，而不是等點擊當下才開始，讓手機有更充裕的時間跑完 */
   (function giftModal(){
     const overlay = document.getElementById('giftModalOverlay');
     const closeBtn = document.getElementById('giftModalClose');
@@ -765,36 +768,42 @@
     const stage = document.getElementById('giftStage');
     if(!overlay || !closeBtn || !modalImg || !stage) return;
 
-    const MAX_CHECK = 30; // 最多嘗試偵測到第幾號，涵蓋合理上限（可依需求調大）
+    const MAX_CHECK = 30;       // 最多嘗試偵測到第幾號
+    const CHECK_TIMEOUT = 3000; // 單張圖片偵測逾時時間（毫秒）
     const foundImages = [];
-    const detectPromise = detectSurpriseImagesAsync();
 
     function checkImage(i){
       return new Promise((resolve) => {
+        let settled = false;
         const img = new Image();
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(false);
+        const finish = (ok) => {
+          if(settled) return;
+          settled = true;
+          resolve(ok);
+        };
+        img.onload = () => finish(true);
+        img.onerror = () => finish(false);
         img.src = `images/surprise/${i}.png`;
+        setTimeout(() => finish(false), CHECK_TIMEOUT); // 逾時保護：這張圖不管有沒有回應，最多只等這麼久
       });
     }
 
-    async function detectSurpriseImagesAsync(){
+    const detectPromise = (async () => {
       const checks = [];
       for(let i = 1; i <= MAX_CHECK; i++){
         checks.push(checkImage(i).then((ok) => { if(ok) foundImages.push(i); }));
       }
       await Promise.all(checks);
       foundImages.sort((a, b) => a - b);
-    }
+    })();
 
     async function openWithRandomImage(){
-      // 手機網路較慢時，偵測可能還沒跑完，這裡一定要等它結束，
-      // 才不會像先前那樣用猜的檔名（在手機上常常猜錯、顯示壞掉的圖示 X）
       modalImg.removeAttribute('src');
       modalImg.alt = '載入中…';
       overlay.classList.add('open');
 
-      await detectPromise;
+      // 保險起見，就算偵測真的異常卡住，最多也只等 4 秒，不會讓視窗永遠卡在「載入中」
+      await Promise.race([detectPromise, new Promise((r) => setTimeout(r, 4000))]);
 
       if(foundImages.length){
         const num = foundImages[Math.floor(Math.random() * foundImages.length)];
