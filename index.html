@@ -770,7 +770,7 @@
     const stage = document.getElementById('giftStage');
     if(!overlay || !closeBtn || !modalImg || !stage) return;
 
-    const MAX_CHECK = 30;       // 最多嘗試偵測到第幾號
+    const MAX_CHECK = 7;        // 目前規劃 1.png ~ 7.png，共 7 張
     const CHECK_TIMEOUT = 3000; // 單張圖片偵測逾時時間（毫秒）
     const foundImages = [];
 
