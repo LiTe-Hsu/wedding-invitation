@@ -276,7 +276,7 @@
   .map-embed iframe{ width:100%; height:280px; border:0; display:block; }
 
   /* ---- 婚禮當日流程 ---- */
-  .timeline{ position:relative; left:50%; transform:translateX(-50%); width:380px; max-width:100%; text-align:left; }
+  .timeline{ position:relative; display:inline-block; text-align:left; }
   .timeline-track{
     position:absolute; left:91px; top:18px; bottom:18px; width:1px;
     background:var(--rose-deep); opacity:.35;
@@ -488,7 +488,7 @@
     <div class="lb-stage">
       <button class="lb-close" id="lbClose" aria-label="關閉">&times;</button>
       <button class="lb-arrow prev" id="lbPrev" aria-label="上一張">&#10094;</button>
-      <img id="lbImage" src="" alt="喜帖相簿照片">
+      <img id="lbImage" alt="喜帖相簿照片">
       <button class="lb-arrow next" id="lbNext" aria-label="下一張">&#10095;</button>
     </div>
     <div class="lb-thumbs" id="lbThumbs"></div>
@@ -502,7 +502,7 @@
         <button class="gift-modal-close" id="giftModalClose" aria-label="關閉">&times;</button>
       </div>
       <div class="gift-modal-body">
-        <img id="giftModalImage" src="" alt="驚喜盒內容">
+        <img id="giftModalImage" alt="驚喜盒內容">
       </div>
     </div>
   </div>
@@ -685,7 +685,9 @@
       el.style.left = left + '%';
       el.style.top = top + '%';
       el.style.animationDelay = delay + 's';
-      el.innerHTML = `<img src="" alt="小禮物盒">`;
+      el.innerHTML = `<img alt="小禮物盒">`; // 注意：這裡故意不給 src="" ──
+      // 空字串的 src 在部分手機瀏覽器（尤其 iOS Safari）會被當成「重新請求目前這個網頁本身」，
+      // 是知名的 HTML 陷阱，容易讓圖片卡住顯示不出來。真正的圖片網址交給下面這行來設定。
       randomizeMiniGiftContent(el);
       layer.appendChild(el);
 
