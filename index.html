@@ -43,7 +43,7 @@
   /* 背景圖垂直重複拼接、隨內容一起捲動，透明度 10%（用偽元素呈現，才不會連文字都變淡） */
   .page-frame::before{
     content:"";
-    position:absolute; inset:0;
+    position:absolute; top:0; right:0; bottom:0; left:0;
     background-image:url('background.png');
     background-repeat:repeat-y;
     background-size:100% auto;
@@ -51,6 +51,10 @@
     opacity:0.15;
     z-index:0;
     pointer-events:none;
+    -webkit-transform:translateZ(0);
+    transform:translateZ(0);
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
   }
 
   /* ---- 背景音樂播放鈕（開啟喜帖後才出現） ---- */
@@ -77,21 +81,21 @@
   #musicBtn .note-icon{ color:var(--rose-deep); font-size:18px; line-height:1; }
 
   /* ---- 主頁面飄落花瓣 ---- */
-  #petal-layer{ position:fixed; inset:0; pointer-events:none; z-index:40; overflow:hidden; }
+  #petal-layer{ position:fixed; top:0; right:0; bottom:0; left:0; pointer-events:none; z-index:40; overflow:hidden; }
   .petal{ position:absolute; top:-40px; opacity:.85; animation-name:fall; animation-timing-function:linear; animation-iteration-count:infinite; }
   .petal svg{display:block;}
   @keyframes fall{ 0%{ transform:translate(0,-10vh) rotate(0deg); } 100%{ transform:translate(var(--drift,40px), 110vh) rotate(360deg); } }
 
   /* ---- 封面 ---- */
   #cover{
-    position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center;
+    position:fixed; top:0; right:0; bottom:0; left:0; z-index:50; display:flex; align-items:center; justify-content:center;
     background: radial-gradient(ellipse at 50% 0%, var(--wine) 0%, var(--wine-dark) 65%);
     transition:transform 1s cubic-bezier(.65,0,.35,1), opacity 1s ease; overflow:hidden;
   }
   #cover.opened{ transform:translateY(-100%); opacity:0; pointer-events:none; }
 
   /* 封面持續飄落的玫瑰花瓣 */
-  #coverPetals{ position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
+  #coverPetals{ position:absolute; top:0; right:0; bottom:0; left:0; pointer-events:none; overflow:hidden; z-index:0; }
 
   .cover-frame{
     text-align:center; padding:60px 46px; background:linear-gradient(160deg, #fff 0%, var(--cream) 100%);
@@ -197,7 +201,7 @@
 
   /* ---- 相簿燈箱／幻燈片 ---- */
   #lightbox{
-    position:fixed; inset:0; z-index:80; background:rgba(20,8,10,.92);
+    position:fixed; top:0; right:0; bottom:0; left:0; z-index:80; background:rgba(20,8,10,.92);
     display:none; align-items:center; justify-content:center; flex-direction:column;
   }
   #lightbox.open{ display:flex; }
@@ -222,7 +226,7 @@
 
   /* ---- 驚喜盒彈出視窗 ---- */
   .gift-modal-overlay{
-    position:fixed; inset:0; z-index:95; background:rgba(20,8,10,.55);
+    position:fixed; top:0; right:0; bottom:0; left:0; z-index:95; background:rgba(20,8,10,.55);
     display:none; align-items:center; justify-content:center; padding:20px;
   }
   .gift-modal-overlay.open{ display:flex; }
@@ -304,7 +308,7 @@
 
   /* ---- 驚喜盒 ---- */
   .gift-stage{
-    position:relative; max-width:600px; height:440px; margin:0 auto;
+    position:relative; max-width:600px; height:300px; margin:0 auto;
     cursor:pointer; user-select:none;
   }
   @keyframes twinkle{ 0%,100%{ opacity:.3; transform:scale(.8); } 50%{ opacity:1; transform:scale(1.15); } }
@@ -331,7 +335,7 @@
 
   /* 大禮物盒：固定在舞台正中央 */
   .big-gift{
-    position:absolute; left:50%; top:63%; transform:translate(-50%,-50%);
+    position:absolute; left:50%; top:44%; transform:translate(-50%,-50%);
     animation:bigGiftBob 3s ease-in-out infinite; z-index:5;
   }
   .gift-stage.hovering .big-gift{
@@ -341,7 +345,7 @@
   .big-gift img{ width: 583px; height:auto; display:block; filter:drop-shadow(0 14px 18px rgba(90,30,45,.28)); }
 
   /* 小禮物盒：由 JS 隨機產生位置／大小／角度，散落並可重疊在大禮物盒周圍 */
-  .mini-gifts-layer{ position:absolute; inset:0; }
+  .mini-gifts-layer{ position:absolute; top:0; right:0; bottom:0; left:0; }
   .mini-gift{
     position:absolute; opacity:1; animation:giftBobR 2.6s ease-in-out infinite;
   }
@@ -661,10 +665,10 @@
 
     // 貼近大禮物盒周圍（可重疊）的固定錨點區域，之後再加隨機微調──每個小禮物盒各自佔一個「位置槽」
     const zones = [
-      { left: 30, top: 32 }, { left: 56, top: 28 },
-      { left: 66, top: 50 }, { left: 58, top: 66 },
-      { left: 42, top: 70 }, { left: 30, top: 60 },
-      { left: 26, top: 48 }, { left: 44, top: 26 }
+      { left: 30, top: 22 }, { left: 56, top: 18 },
+      { left: 66, top: 40 }, { left: 58, top: 56 },
+      { left: 42, top: 60 }, { left: 30, top: 50 },
+      { left: 26, top: 38 }, { left: 44, top: 16 }
     ];
 
     layer.innerHTML = '';
