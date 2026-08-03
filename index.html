@@ -33,21 +33,28 @@
   .script{font-family:'Cormorant Garamond',serif;font-style:italic;}
 
   /* 頁面外框：左右留白，內容集中顯示 */
-  /* 背景圖直接套用在本體上（不用絕對定位的偽元素），避免 iOS Safari 對
-     「絕對定位子層在 auto 高度父層裡靠 top/bottom 撐開」這種寫法偶爾抓不到高度、導致背景整個不顯示的問題。
-     透明度用一層半透明米色遮色片疊加在圖片上方來模擬，而不是調整整個元素的 opacity（才不會連文字都變淡）。 */
   .page-frame{
     max-width:760px; margin:0 auto;
     background-color:var(--cream);
-    background-image:
-      linear-gradient(rgba(250,244,236,.85), rgba(250,244,236,.85)),
-      url('background.png');
-    background-repeat:no-repeat, repeat-y;
-    background-size:auto, 100% auto;
-    background-position:top center, top center;
     box-shadow:0 0 70px rgba(90,30,45,.08);
     position:relative;
     overflow:hidden;
+  }
+  /* 背景圖垂直重複拼接、隨內容一起捲動，透明度 10%（用偽元素呈現，才不會連文字都變淡） */
+  .page-frame::before{
+    content:"";
+    position:absolute; top:0; right:0; bottom:0; left:0;
+    background-image:url('background.png');
+    background-repeat:repeat-y;
+    background-size:100% auto;
+    background-position:top center;
+    opacity:0.15;
+    z-index:0;
+    pointer-events:none;
+    -webkit-transform:translateZ(0);
+    transform:translateZ(0);
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
   }
 
   /* ---- 背景音樂播放鈕（開啟喜帖後才出現） ---- */
