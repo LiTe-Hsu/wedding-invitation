@@ -767,7 +767,7 @@
 
     const MAX_CHECK = 30; // 最多嘗試偵測到第幾號，涵蓋合理上限（可依需求調大）
     const foundImages = [];
-    let detectDone = false;
+    const detectPromise = detectSurpriseImagesAsync();
 
     function checkImage(i){
       return new Promise((resolve) => {
@@ -778,30 +778,31 @@
       });
     }
 
-    async function detectSurpriseImages(){
+    async function detectSurpriseImagesAsync(){
       const checks = [];
       for(let i = 1; i <= MAX_CHECK; i++){
         checks.push(checkImage(i).then((ok) => { if(ok) foundImages.push(i); }));
       }
       await Promise.all(checks);
       foundImages.sort((a, b) => a - b);
-      detectDone = true;
     }
-    detectSurpriseImages();
 
-    function openWithRandomImage(){
+    async function openWithRandomImage(){
+      // 手機網路較慢時，偵測可能還沒跑完，這裡一定要等它結束，
+      // 才不會像先前那樣用猜的檔名（在手機上常常猜錯、顯示壞掉的圖示 X）
+      modalImg.removeAttribute('src');
+      modalImg.alt = '載入中…';
+      overlay.classList.add('open');
+
+      await detectPromise;
+
       if(foundImages.length){
         const num = foundImages[Math.floor(Math.random() * foundImages.length)];
+        modalImg.alt = '驚喜盒內容';
         modalImg.src = `images/surprise/${num}.png`;
-      } else if(!detectDone){
-        // 圖片還在偵測中（極少見，通常瞬間就完成），先給個保底猜測
-        modalImg.src = `images/surprise/1.png`;
       } else {
-        // 偵測完成但一張圖片都沒找到
         modalImg.alt = '找不到 images/surprise/ 資料夾裡的圖片，請確認檔案是否已上傳';
-        modalImg.removeAttribute('src');
       }
-      overlay.classList.add('open');
     }
     function closeModal(){
       overlay.classList.remove('open');
