@@ -6,7 +6,7 @@
 <title>立德 & 心怡 | 婚禮邀請</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Iansui&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Chiron+Sung+HK:wght@400;600;700&family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --wine-dark:#3a1420;
@@ -14,10 +14,11 @@
     --blush:#f4dfe0;
     --rose:#c98a92;
     --rose-deep:#a5626c;
+    --rosewood: #9d6d63;
     --cream:#faf4ec;
     --sage:#9caf88;
     --gold:#c9a227;
-    --ink:#4a3b36;
+    --ink:#9d6d63;
     --ink-soft:#7d6a63;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
@@ -99,15 +100,15 @@
   }
   #cover.burst .cover-frame{ transform:scale(1.06); opacity:0; }
   .cover-eyebrow{ font-size:13px; letter-spacing:.35em; color:var(--rose-deep); margin-bottom:18px; position:relative; z-index:2;}
-  .cover-names{ font-size:2.5rem; color:var(--ink); margin-bottom:6px; position:relative; z-index:2;}
-  .cover-amp{ color:var(--gold); font-size:1.6rem; display:block; margin:2px 0; }
-  .cover-date{ font-size:1rem; letter-spacing:.15em; color:var(--ink-soft); margin-bottom:24px; position:relative; z-index:2;}
-  .cover-invite{ font-size:.95rem; color:var(--ink-soft); margin-bottom:6px; position:relative; z-index:2;}
-  .cover-line{ font-size:.9rem; color:var(--ink-soft); margin-bottom:30px; position:relative; z-index:2;}
+  .cover-names{ font-size:2.5rem; color:var(--rosewood); margin-bottom:8px; position:relative; z-index:2; font-family:'Noto Sans TC',sans-serif; font-weight:500;}
+  .cover-amp{ color:var(--gold); font-size:1.6rem; display:block; margin:6px 0; }
+  .cover-date{ font-size:1rem; letter-spacing:.15em; color:var(--ink-soft); margin-bottom:24px; position:relative; z-index:2; font-family:'Playfair Display',serif; font-style:italic;}
+  .cover-invite{ font-size:.95rem; color:var(--ink-soft); margin-bottom:6px; position:relative; z-index:2; font-family:'Iansui',sans-serif;}
+  .cover-line{ font-size:.9rem; color:var(--ink-soft); margin-bottom:30px; position:relative; z-index:2; font-family:'Iansui',sans-serif;}
 
   /* 開啟喜帖按鈕：左至右光影掃過 */
   .open-btn{
-    font-family:'Noto Serif TC',serif; background:var(--rose-deep); border:none; color:#fff;
+    font-family:'Iansui',serif; background:var(--rose-deep); border:none; color:#fff;
     padding:14px 40px; border-radius:999px; font-size:.95rem; letter-spacing:.2em; cursor:pointer;
     transition:.3s; position:relative; z-index:2; box-shadow:0 10px 26px rgba(165,98,108,.4);
     overflow:hidden;
@@ -146,39 +147,39 @@
 
   /* ---- 通用區塊 ---- */
   main{ position:relative; z-index:1; }
-  section{ padding:100px 24px; max-width:760px; margin:0 auto; text-align:center; }
-  .section-title{ font-size:1.6rem; margin-bottom:8px; }
+  section{ padding:50px 24px; max-width:760px; margin:0 auto; text-align:center; }
+  .section-title{ font-family:'Noto Sans TC'; font-size:1.6rem; margin-bottom:8px; }
   .section-sub{ font-size:.85rem; letter-spacing:.3em; color:var(--rose-deep); margin-bottom:36px; }
   .corner-deco{ position:absolute; width:220px; height:220px; pointer-events:none; opacity:.85; z-index:0; }
   .corner-deco.tl{ top:-20px; left:-40px; }
   .corner-deco.br{ bottom:-20px; right:-40px; transform:rotate(180deg); }
 
   /* ---- 家族介紹 (Hero) ---- */
-  .family-hero{ position:relative; padding-top:130px; overflow:hidden; }
-  .fh-labels{ position:relative; z-index:2; margin-bottom:34px; }
+  .family-hero{ position:relative; padding:130px 24px 70px; overflow:visible; text-align:left; }
+  .fh-labels{ position:relative; z-index:3; margin-bottom:44px; text-align:right; padding-right:24%; }
   .fh-role{ font-size:.85rem; letter-spacing:.3em; color:var(--rose-deep); margin-top:14px; }
-  .fh-name{ font-size:1.7rem; color:var(--ink); }
-  .fh-photos{ position:relative; z-index:2; display:flex; flex-wrap:wrap; justify-content:center; gap:22px; margin-top:10px; }
+  .fh-name{ font-size:1.9rem; color:var(--rosewood); font-family:'Noto Sans TC',sans-serif; }
+  .fh-photos{ position:relative; z-index:2; height:430px; max-width:360px; margin:0 auto 0 15%; }
   .photo-frame{
-    width:220px; height:290px; border-radius:6px; overflow:hidden; background:#fff;
-    box-shadow:0 18px 40px rgba(165,98,108,.18); border:6px solid #fff; position:relative;
+    width:225px; height:295px; border-radius:4px; overflow:hidden; background:#fff;
+    box-shadow:0 18px 40px rgba(165,98,108,.2); border:3px solid #fff; position:absolute;
   }
-  .photo-frame:nth-child(1){ transform:rotate(-3deg); }
-  .photo-frame:nth-child(2){ transform:rotate(3deg) translateY(20px); }
+  .photo-frame:nth-child(1){ top:0; left:130px; transform:rotate(5deg); z-index:1; border-color:#e8b4b8; }
+  .photo-frame:nth-child(2){ top:210px; left:50px; transform:rotate(-8deg); z-index:2; border-color:#b9a3c3; }
   .photo-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
 
   /* ---- 婚禮資訊 ---- */
-  .parents-grid{ display:flex; justify-content:center; gap:80px; margin-bottom:34px; flex-wrap:wrap; }
+  .parents-grid{ display:flex; justify-content:center; gap:18rem; margin-bottom:34px; flex-wrap:wrap; }
   .parents-label{ font-size:.8rem; color:var(--rose-deep); letter-spacing:.2em; margin-bottom:8px; }
-  .parents-name{ font-size:1.05rem; color:var(--ink); }
-  .announce-text{ color:var(--ink-soft); font-size:.95rem; line-height:1.9; margin-bottom:40px; }
+  .parents-name{ font-size:1.25rem; color:var(--rosewood); font-weight:600; }
+  .announce-text{ color:var(--rose-deep); font-size:.95rem; line-height:1.9; margin-bottom:40px; }
   .couple-names{ display:flex; flex-direction:column; align-items:center; gap:4px; }
   .cn-role{ font-size:.85rem; letter-spacing:.25em; color:var(--rose-deep); margin-top:14px; }
-  .cn-name{ font-size:2rem; color:var(--ink); }
+  .cn-name{ font-size:2.8rem; color:var(--rosewood); font-weight:500; font-family:'Noto Sans TC',sans-serif; }
   .cn-amp{ font-size:1.6rem; color:var(--gold); margin:6px 0; }
 
   /* ---- 相簿 ---- */
-  .gallery-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; position:relative; z-index:2; }
+  .gallery-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; max-width: 35rem; margin:0 auto; position:relative; z-index:2; }
   .gallery-item{
     aspect-ratio:1/1; border-radius:10px; overflow:hidden; background:linear-gradient(150deg,var(--blush),#fff);
     display:flex; align-items:center; justify-content:center; box-shadow:0 10px 26px rgba(165,98,108,.12);
@@ -202,7 +203,7 @@
   #lightbox.open{ display:flex; }
   .lb-counter{ color:#f0d9db; font-size:.85rem; letter-spacing:.15em; margin-bottom:14px; }
   .lb-stage{ position:relative; display:flex; align-items:center; justify-content:center; max-width:90vw; }
-  .lb-stage img{ max-width:82vw; max-height:64vh; border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,.5); }
+  .lb-stage img{ max-width:85vw; max-height:69vh; border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,.5); }
   .lb-close{
     position:absolute; top:-46px; right:0; background:none; border:none; color:#fff;
     font-size:1.8rem; line-height:1; cursor:pointer; z-index:2;
@@ -219,32 +220,73 @@
   .lb-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
   .lb-thumb.active{ opacity:1; border-color:var(--gold); }
 
+  /* ---- 驚喜盒彈出視窗 ---- */
+  .gift-modal-overlay{
+    position:fixed; inset:0; z-index:95; background:rgba(20,8,10,.55);
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  .gift-modal-overlay.open{ display:flex; }
+  .gift-modal{
+    background:var(--cream); border-radius:14px; overflow:hidden;
+    max-width:520px; width:100%; box-shadow:0 30px 60px rgba(0,0,0,.35);
+  }
+  .gift-modal-header{
+    background:var(--rose-deep); color:#fff; padding:16px 50px;
+    position:relative; text-align:center;
+  }
+  .gift-modal-title{ font-family:'Noto Serif TC',serif; font-size:1.1rem; letter-spacing:.2em; }
+  .gift-modal-close{
+    position:absolute; right:16px; top:50%; transform:translateY(-50%);
+    background:none; border:none; color:#fff; font-size:1.6rem; line-height:1; cursor:pointer;
+  }
+  .gift-modal-body{
+    padding:26px; min-height:160px; display:flex; align-items:center; justify-content:center;
+  }
+  .gift-modal-body img{ max-width:100%; max-height:60vh; display:block; border-radius:8px; }
+
   /* ---- 婚宴資訊 ---- */
-  .lead-text{ color:var(--ink-soft); margin-bottom:26px; }
+  .lead-text{ color:var(--rosewood); margin-bottom:26px; }
   .reception-times{ display:flex; justify-content:center; gap:50px; margin-bottom:30px; }
   .rt-label{ display:block; font-size:.8rem; color:var(--rose-deep); letter-spacing:.2em; margin-bottom:6px; }
-  .rt-time{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.6rem; color:var(--ink); }
+  .rt-time{ font-family:'Playfair Display',serif; font-style:italic; font-size:1.6rem; color:var(--ink); }
   .date-display{ display:flex; align-items:baseline; justify-content:center; gap:14px; margin-bottom:6px; }
-  .dow{ font-size:.9rem; color:var(--ink-soft); letter-spacing:.1em; }
-  .day-num{ font-size:2.6rem; color:var(--rose-deep); }
-  .month{ font-size:.95rem; color:var(--ink-soft); }
-  .year-display{ font-size:1.1rem; color:var(--ink-soft); margin-bottom:6px; }
-  .lunar-display{ font-size:.85rem; color:var(--ink-soft); margin-bottom:30px; }
-  .countdown{ font-size:1rem; color:var(--rose-deep); letter-spacing:.05em; margin-bottom:36px; }
+  .dow{ font-size:.9rem; color:var(--rosewood); letter-spacing:.1em; }
+  .day-num{ font-size:2.6rem; color:var(--rose-deep); font-family:'Playfair Display',serif; font-style:italic;}
+  .month{ font-size:.95rem; color:var(--rosewood); }
+  .year-display{ font-size:1.1rem; color:var(--rosewood); margin-bottom:6px; font-family:'Playfair Display',serif; }
+  .lunar-display{ font-size:.85rem; color:var(--rosewood); margin-bottom:30px; }
+  .countdown{ font-size:1rem; color:var(--rose-deep); letter-spacing:.05em; margin-bottom:36px; font-family:'Playfair Display','Noto Sans TC',serif; }
   .mini-calendar{ max-width:340px; margin:0 auto; background:#fff; border-radius:14px; padding:20px; box-shadow:0 10px 30px rgba(165,98,108,.1); }
-  .mc-title{ font-size:.9rem; color:var(--ink-soft); margin-bottom:14px; letter-spacing:.1em; }
+  .mc-title{ font-size:.9rem; color:var(--rosewood); margin-bottom:14px; letter-spacing:.1em; }
   .mc-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
-  .mc-head{ font-size:.75rem; color:var(--ink-soft); padding-bottom:6px; }
+  .mc-head{ font-size:.75rem; color:var(--rosewood); padding-bottom:6px; }
   .mc-day{ font-size:.85rem; padding:7px 0; border-radius:6px; color:var(--ink); }
   .mc-day.mc-highlight{ background:var(--rose-deep); color:#fff; font-weight:700; }
   .mc-day.mc-empty{ visibility:hidden; }
 
   /* ---- 婚宴地點 ---- */
   .venue-card{ background:#fff; border-radius:14px; padding:34px 28px; box-shadow:0 10px 30px rgba(165,98,108,.08); position:relative; z-index:2; }
-  .venue-name{ font-size:1.25rem; margin-bottom:8px; }
-  .venue-addr{ color:var(--ink-soft); font-size:.95rem; margin-bottom:22px; }
+  .venue-name{ font-size:1.25rem; margin-bottom:8px; font-family:'Noto Sans TC',sans-serif; }
+  .venue-addr{ color:var(--rosewood); font-size:.95rem; margin-bottom:22px; }
   .map-embed{ border-radius:10px; overflow:hidden; }
   .map-embed iframe{ width:100%; height:280px; border:0; display:block; }
+
+  /* ---- 婚禮當日流程 ---- */
+  .timeline{ position:relative; left:50%; transform:translateX(-50%); width:380px; max-width:100%; text-align:left; }
+  .timeline-track{
+    position:absolute; left:91px; top:18px; bottom:18px; width:1px;
+    background:var(--rose-deep); opacity:.35;
+  }
+  .timeline-item{ display:flex; align-items:center; gap:16px; padding:16px 0; }
+  .tl-time{
+    width:70px; flex:none; text-align:left; font-family:'Cormorant Garamond',serif;
+    font-style:italic; color:var(--ink-soft); font-size:1rem; letter-spacing:.03em;
+  }
+  .tl-dot{
+    width:10px; height:10px; border-radius:50%; background:var(--rose-deep);
+    flex:none; position:relative; z-index:2; box-shadow:0 0 0 4px var(--cream);
+  }
+  .tl-label{ color:var(--ink); font-weight:600; font-size:1rem; }
 
   /* ---- 賓客留言 ---- */
   .messages-list{
@@ -260,16 +302,80 @@
   .message-text{ color:var(--ink); font-size:.92rem; line-height:1.6; }
   .messages-empty{ color:var(--ink-soft); font-size:.9rem; }
 
+  /* ---- 驚喜盒 ---- */
+  .gift-stage{
+    position:relative; max-width:600px; height:440px; margin:0 auto;
+    cursor:pointer; user-select:none;
+  }
+  @keyframes twinkle{ 0%,100%{ opacity:.3; transform:scale(.8); } 50%{ opacity:1; transform:scale(1.15); } }
+  @keyframes ctaFlash{ 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
+
+  /* 帶有隨機角度／尺寸的浮動與循環動畫（用 CSS 變數保留每個小禮物盒各自的角度與大小） */
+  @keyframes giftBobR{
+    0%,100%{ transform:translate(-50%,-50%) translateY(0) rotate(var(--rot,0deg)); }
+    50%{ transform:translate(-50%,-50%) translateY(-8px) rotate(var(--rot,0deg)); }
+  }
+  @keyframes giftCycleR{
+    0%{ transform:translate(-50%,-50%) translateY(60px) rotate(var(--rot,0deg)); opacity:0; }
+    16%{ transform:translate(-50%,-50%) translateY(6px) rotate(var(--rot,0deg)); opacity:.85; }
+    30%{ transform:translate(-50%,-50%) translateY(0) rotate(var(--rot,0deg)); opacity:1; }
+    68%{ transform:translate(-50%,-50%) translateY(0) rotate(var(--rot,0deg)); opacity:1; }
+    88%{ transform:translate(-50%,-50%) translateY(-60px) rotate(var(--rot,0deg)); opacity:0; }
+    100%{ transform:translate(-50%,-50%) translateY(60px) rotate(var(--rot,0deg)); opacity:0; }
+  }
+  @keyframes bigGiftBob{ 0%,100%{ transform:translate(-50%,-50%) translateY(0); } 50%{ transform:translate(-50%,-50%) translateY(-8px); } }
+
+  .gift-star{ position:absolute; color:var(--gold); font-size:1.1rem; animation:twinkle 1.8s ease-in-out infinite; z-index:1; }
+  .gs-1{ left:12%; top:14%; animation-delay:0s; }
+  .gs-2{ right:14%; top:20%; animation-delay:.9s; }
+
+  /* 大禮物盒：固定在舞台正中央 */
+  .big-gift{
+    position:absolute; left:50%; top:63%; transform:translate(-50%,-50%);
+    animation:bigGiftBob 3s ease-in-out infinite; z-index:5;
+  }
+  .gift-stage.hovering .big-gift{
+    animation:none; transform:translate(-50%, calc(-50% - 26px));
+    transition:transform .45s ease;
+  }
+  .big-gift img{ width: 583px; height:auto; display:block; filter:drop-shadow(0 14px 18px rgba(90,30,45,.28)); }
+
+  /* 小禮物盒：由 JS 隨機產生位置／大小／角度，散落並可重疊在大禮物盒周圍 */
+  .mini-gifts-layer{ position:absolute; inset:0; }
+  .mini-gift{
+    position:absolute; opacity:1; animation:giftBobR 2.6s ease-in-out infinite;
+  }
+  .mini-gift img{ width:100%; height:auto; display:block; filter:drop-shadow(0 8px 10px rgba(0,0,0,.18)); }
+  .gift-stage.hovering .mini-gift{
+    animation-name:giftCycleR; animation-duration:3.2s;
+    animation-timing-function:ease-in-out; animation-iteration-count:infinite;
+  }
+
+  .confetti-piece{
+    position:absolute; border-radius:2px; opacity:1;
+    transform:translate(0,0) rotate(0deg);
+    transition:transform .85s cubic-bezier(.2,.6,.35,1), opacity .85s ease;
+    pointer-events:none; z-index:6;
+  }
+
+  .gift-cta{ margin-top:3px; color:var(--rose-deep); font-size:.9rem; letter-spacing:.15em; }
+  .gift-stage.hovering + .gift-cta{ animation:ctaFlash .8s ease-in-out infinite; }
+
   /* ---- 結語 ---- */
-  .closing-flower{ color:var(--gold); font-size:1.8rem; margin-bottom:18px; }
-  .closing-text{ font-size:1.25rem; color:var(--ink); }
+ .closing-section{ padding:20px 24px; max-width:760px; margin:0 auto; text-align:center; }
+ .closing-flower{ color:var(--gold); font-size:1.8rem; }
+ .closing-text{ font-size:1.25rem; color:var(--ink); font-family:'Iansui',sans-serif; }
 
   /* ---- 賓客留言區：已改回透明背景，跟其他區塊一樣透出花卉背景圖 ---- */
 
-  footer{ text-align:center; padding:40px 20px 60px; color:var(--ink-soft); font-size:.8rem; letter-spacing:.1em; position:relative; z-index:2;}
+  footer{ text-align:center; padding:10px 20px 20px; color:var(--rosewood); font-size:.8rem; letter-spacing:.1em; position:relative; z-index:2;}
 
   @media (max-width:520px){
     .photo-frame{ width:160px; height:220px; }
+    .fh-labels{ padding-right:10%; }
+    .fh-photos{ height:340px; max-width:280px; margin-left:8%; }
+    .photo-frame:nth-child(1){ left:60px; }
+    .photo-frame:nth-child(2){ top:135px; left:0; }
     .parents-grid{ gap:40px; }
     .reception-times{ gap:30px; }
     section{ padding:70px 20px; }
@@ -311,16 +417,16 @@
   <section class="family-hero">
     <div class="fh-labels">
       <div class="fh-role">叁男</div>
-      <div class="fh-name serif">許立德</div>
+      <div class="fh-name serif">立德</div>
       <div class="fh-role">叁女</div>
-      <div class="fh-name serif">張心怡</div>
+      <div class="fh-name serif">心怡</div>
     </div>
     <div class="fh-photos">
       <div class="photo-frame">
-        <img src="https://placehold.co/440x580/f4dfe0/a5626c?text=新人照片" alt="新人照片 1（請替換成實際照片）">
+        <img src="./images/wedding_dress/EVE07077.jpg" alt="婚紗照片1">
       </div>
       <div class="photo-frame">
-        <img src="https://placehold.co/440x580/f0c9cd/a5626c?text=新人照片" alt="新人照片 2（請替換成實際照片）">
+        <img src="./images/wedding_dress/EVE07095.jpg" alt="婚紗照片2">
       </div>
     </div>
   </section>
@@ -357,16 +463,16 @@
     <h2 class="section-title serif">相簿</h2>
     <div class="gallery-grid" id="galleryGrid">
       <div class="gallery-item" data-index="0">
-        <img src="https://placehold.co/800x800/f4dfe0/a5626c?text=相片+1" alt="相片 1（請替換成實際照片）">
+        <img src="./images/wedding_dress/EVE06907.jpg" alt="婚紗照片3">
       </div>
       <div class="gallery-item" data-index="1">
-        <img src="https://placehold.co/800x800/f0c9cd/a5626c?text=相片+2" alt="相片 2（請替換成實際照片）">
+        <img src="./images/wedding_dress/EVE06897.jpg" alt="婚紗照片4">
       </div>
       <div class="gallery-item" data-index="2">
-        <img src="https://placehold.co/800x800/f6dfe1/a5626c?text=相片+3" alt="相片 3（請替換成實際照片）">
+        <img src="./images/wedding_dress/EVE06886-愛麗絲.jpg" alt="婚紗照片5">
       </div>
       <div class="gallery-item" data-index="3">
-        <img src="https://placehold.co/800x800/e8b4b8/a5626c?text=相片+4" alt="相片 4（請替換成實際照片）">
+        <img src="./images/wedding_dress/EVE06863-愛麗絲.jpg" alt="婚紗照片7">
         <div class="gallery-more-badge" id="galleryMoreBadge">+2</div>
       </div>
     </div>
@@ -382,6 +488,19 @@
       <button class="lb-arrow next" id="lbNext" aria-label="下一張">&#10095;</button>
     </div>
     <div class="lb-thumbs" id="lbThumbs"></div>
+  </div>
+
+  <!-- 驚喜盒彈出視窗 -->
+  <div class="gift-modal-overlay" id="giftModalOverlay">
+    <div class="gift-modal">
+      <div class="gift-modal-header">
+        <span class="gift-modal-title">驚喜盒</span>
+        <button class="gift-modal-close" id="giftModalClose" aria-label="關閉">&times;</button>
+      </div>
+      <div class="gift-modal-body">
+        <img id="giftModalImage" src="" alt="驚喜盒內容">
+      </div>
+    </div>
   </div>
 
   <!-- 婚宴資訊 -->
@@ -420,6 +539,40 @@
     </div>
   </section>
 
+  <!-- 婚禮當日流程 -->
+  <section>
+    <div class="section-sub">SCHEDULE</div>
+    <h2 class="section-title serif">婚禮當日流程</h2>
+    <div class="timeline">
+      <div class="timeline-track"></div>
+      <div class="timeline-item">
+        <span class="tl-time">12:00</span>
+        <span class="tl-dot"></span>
+        <span class="tl-label">賓客迎接</span>
+      </div>
+      <div class="timeline-item">
+        <span class="tl-time">12:30</span>
+        <span class="tl-dot"></span>
+        <span class="tl-label">開席</span>
+      </div>
+      <div class="timeline-item">
+        <span class="tl-time">12:45</span>
+        <span class="tl-dot"></span>
+        <span class="tl-label">敬酒、切蛋糕</span>
+      </div>
+      <div class="timeline-item">
+        <span class="tl-time">13:15</span>
+        <span class="tl-dot"></span>
+        <span class="tl-label">上主菜</span>
+      </div>
+      <div class="timeline-item">
+        <span class="tl-time">14:30</span>
+        <span class="tl-dot"></span>
+        <span class="tl-label">宴會結束</span>
+      </div>
+    </div>
+  </section>
+
   <!-- 賓客留言 -->
   <section>
     <div class="section-sub">MESSAGES</div>
@@ -429,11 +582,30 @@
     </div>
   </section>
 
-  <!-- 結語 -->
+  <!-- 驚喜盒 -->
   <section>
+    <div class="section-sub">GIFT</div>
+    <h2 class="section-title serif">驚喜盒</h2>
+
+    <div class="gift-stage" id="giftStage">
+      <span class="gift-star gs-1">&#10022;</span>
+      <span class="gift-star gs-2">&#10022;</span>
+
+      <div class="mini-gifts-layer" id="miniGiftsLayer"></div>
+
+      <div class="big-gift img-mode" id="bigGift">
+        <img src="images/gift/0.png" alt="大禮物盒">
+      </div>
+    </div>
+
+    <div class="gift-cta">點擊開啟</div>
+  </section>
+
+  <!-- 結語 -->
+  <div class="closing-section">
     <div class="closing-flower">&#10084;</div>
     <p class="closing-text serif">您的蒞臨是我們最大的榮幸！</p>
-  </section>
+  </div>
 
   <footer>
     立德 &amp; 心怡 敬邀 · 2026.09.12
@@ -462,6 +634,148 @@
         <div class="message-text">${m.text}</div>
       </div>
     `).join('');
+  })();
+
+    /* 驚喜盒：動態隨機產生小禮物盒（位置／大小／角度／上下層隨機） */
+  function randomizeMiniGiftContent(el){
+    const num = 1 + Math.floor(Math.random() * 20);          // images/gift/1.png ~ 20.png
+    const size = 20 + Math.random() * 30;                     // 隨機大小 20px ~ 50px，忽大忽小更明顯
+    const left = parseFloat(el.style.left);
+    // 角度依左右位置決定傾斜方向：偏大禮物盒右側 → 角度偏右（正值）；偏左側 → 角度偏左（負值）
+    const rot = left >= 50
+      ? 10 + Math.random() * 40
+      : -(10 + Math.random() * 40);
+    const inFront = Math.random() < 0.5;                      // 隨機決定疊在大禮物盒上層或下層
+    el.style.width = size + 'px';
+    el.style.zIndex = inFront ? 7 : 3;                         // 大禮物盒本身是 z-index:5
+    el.style.setProperty('--rot', rot + 'deg');
+    const img = el.querySelector('img');
+    if(img) img.src = `images/gift/${num}.png`;
+  }
+
+  function renderMiniGifts(){
+    const layer = document.getElementById('miniGiftsLayer');
+    if(!layer) return;
+
+    const MINI_COUNT = 8; // 同時顯示幾個小禮物盒
+
+    // 貼近大禮物盒周圍（可重疊）的固定錨點區域，之後再加隨機微調──每個小禮物盒各自佔一個「位置槽」
+    const zones = [
+      { left: 30, top: 32 }, { left: 56, top: 28 },
+      { left: 66, top: 50 }, { left: 58, top: 66 },
+      { left: 42, top: 70 }, { left: 30, top: 60 },
+      { left: 26, top: 48 }, { left: 44, top: 26 }
+    ];
+
+    layer.innerHTML = '';
+
+    zones.slice(0, MINI_COUNT).forEach((zone) => {
+      const jitterX = (Math.random() - 0.5) * 8;
+      const jitterY = (Math.random() - 0.5) * 8;
+      const left = Math.min(92, Math.max(2, zone.left + jitterX));
+      const top = Math.min(86, Math.max(2, zone.top + jitterY));
+      const delay = Math.random() * 2.6;
+
+      const el = document.createElement('div');
+      el.className = 'mini-gift';
+      el.style.left = left + '%';
+      el.style.top = top + '%';
+      el.style.animationDelay = delay + 's';
+      el.innerHTML = `<img src="" alt="小禮物盒">`;
+      randomizeMiniGiftContent(el);
+      layer.appendChild(el);
+
+      // 這個小禮物盒每完成一輪自己的循環（消失／重新出現）時，
+      // 就在「完全看不見」的那一瞬間換成另一個隨機小禮物盒──只在滑鼠停留時才切換
+      el.addEventListener('animationiteration', () => {
+        const stage = document.getElementById('giftStage');
+        if(stage && stage.classList.contains('hovering')){
+          randomizeMiniGiftContent(el);
+        }
+      });
+    });
+  }
+  renderMiniGifts();
+
+  /* 驚喜盒：滑鼠移入時大禮物盒上升、小禮物盒各自獨立循環穿梭並換成新的小禮物盒、彩帶噴發、文字閃爍 */
+  (function initGiftBox(){
+    const stage = document.getElementById('giftStage');
+    const bigGift = document.getElementById('bigGift');
+    if(!stage || !bigGift) return;
+    let confettiTimer = null;
+
+    function spawnConfetti(){
+      const stageRect = stage.getBoundingClientRect();
+      const giftRect = bigGift.getBoundingClientRect();
+      const startX = giftRect.left - stageRect.left + giftRect.width / 2;
+      const startY = giftRect.top - stageRect.top + giftRect.height * 0.15;
+      const colors = ['#c98a92', '#c9a227', '#9caf88', '#e8b4b8', '#5c1f2e', '#a7c7d9', '#e8ddc7'];
+      const size = 5 + Math.random() * 5;
+      const drift = (Math.random() - 0.5) * 110;
+      const rise = 120 + Math.random() * 90;
+      const rot = Math.random() * 360;
+
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = startX + 'px';
+      el.style.top = startY + 'px';
+      el.style.width = size + 'px';
+      el.style.height = (size * 2.4) + 'px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      stage.appendChild(el);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          el.style.transform = `translate(${drift}px, ${-rise}px) rotate(${rot}deg)`;
+          el.style.opacity = '0';
+        });
+      });
+      setTimeout(() => el.remove(), 900);
+    }
+
+    function startHoverEffects(){
+      stage.classList.add('hovering');
+      if(!confettiTimer){ confettiTimer = setInterval(spawnConfetti, 130); }
+    }
+    function stopHoverEffects(){
+      stage.classList.remove('hovering');
+      if(confettiTimer){ clearInterval(confettiTimer); confettiTimer = null; }
+    }
+
+    stage.addEventListener('mouseenter', startHoverEffects);
+    stage.addEventListener('mouseleave', stopHoverEffects);
+    // 觸控裝置：點按時暫時觸發同樣的效果
+    stage.addEventListener('touchstart', () => {
+      startHoverEffects();
+      setTimeout(stopHoverEffects, 2200);
+    }, { passive: true });
+  })();
+
+  /* 驚喜盒：點擊時彈出視窗，隨機顯示 images/surprise/ 裡的一張圖 */
+  (function giftModal(){
+    const overlay = document.getElementById('giftModalOverlay');
+    const closeBtn = document.getElementById('giftModalClose');
+    const modalImg = document.getElementById('giftModalImage');
+    const stage = document.getElementById('giftStage');
+    if(!overlay || !closeBtn || !modalImg || !stage) return;
+
+    const SURPRISE_IMAGE_COUNT = 10; // images/surprise/1.png ~ 10.png，請依實際圖片數量調整這個數字
+
+    function openWithRandomImage(){
+      const num = 1 + Math.floor(Math.random() * SURPRISE_IMAGE_COUNT);
+      modalImg.src = `images/surprise/${num}.png`;
+      overlay.classList.add('open');
+    }
+    function closeModal(){
+      overlay.classList.remove('open');
+    }
+
+    stage.addEventListener('click', openWithRandomImage);
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    });
   })();
 
   /* 留言區進入畫面可視範圍時，自動緩慢向下捲動；離開畫面就停止 */
@@ -658,12 +972,12 @@
   }
   /* 相簿燈箱／幻燈片：共 6 張照片（相簿格子只顯示前 4 張，其餘用 +N 標籤提示） */
   const photoUrls = [
-    'https://placehold.co/800x800/f4dfe0/a5626c?text=相片+1',
-    'https://placehold.co/800x800/f0c9cd/a5626c?text=相片+2',
-    'https://placehold.co/800x800/f6dfe1/a5626c?text=相片+3',
-    'https://placehold.co/800x800/e8b4b8/a5626c?text=相片+4',
-    'https://placehold.co/800x800/d9a5ab/a5626c?text=相片+5',
-    'https://placehold.co/800x800/e0b8c2/a5626c?text=相片+6'
+    './images/wedding_dress/EVE06907.jpg',
+    './images/wedding_dress/EVE06897.jpg',
+    './images/wedding_dress/EVE06886-愛麗絲.jpg',
+    './images/wedding_dress/EVE06863-愛麗絲.jpg',
+    './images/wedding_dress/EVE06996.jpg',
+    './images/wedding_dress/EVE07028.jpg'
   ];
   const galleryTileCount = document.querySelectorAll('.gallery-item').length;
   const moreBadge = document.getElementById('galleryMoreBadge');
