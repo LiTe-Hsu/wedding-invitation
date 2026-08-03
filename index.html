@@ -238,7 +238,7 @@
     background:var(--rose-deep); color:#fff; padding:16px 50px;
     position:relative; text-align:center;
   }
-  .gift-modal-title{ font-family:'Noto Serif TC',serif; font-size:1.1rem; letter-spacing:.2em; }
+  .gift-modal-title{ font-size:1.1rem; letter-spacing:.2em; }
   .gift-modal-close{
     position:absolute; right:16px; top:50%; transform:translateY(-50%);
     background:none; border:none; color:#fff; font-size:1.6rem; line-height:1; cursor:pointer;
@@ -771,8 +771,8 @@
     if(!overlay || !closeBtn || !modalImg || !stage) return;
 
     const MAX_CHECK = 7;        // 目前規劃 1.png ~ 7.png，共 7 張
-    const CHECK_TIMEOUT = 3000; // 單張圖片偵測逾時時間（毫秒）
-    const foundImages = [];
+    const CHECK_TIMEOUT = 5000; // 單張圖片偵測逾時時間（毫秒）
+    let foundImages = [];
 
     function checkImage(i){
       return new Promise((resolve) => {
@@ -790,22 +790,45 @@
       });
     }
 
-    const detectPromise = (async () => {
+    async function detectSurpriseImages(){
+      const results = [];
       const checks = [];
       for(let i = 1; i <= MAX_CHECK; i++){
-        checks.push(checkImage(i).then((ok) => { if(ok) foundImages.push(i); }));
+        checks.push(checkImage(i).then((ok) => { if(ok) results.push(i); }));
       }
       await Promise.all(checks);
-      foundImages.sort((a, b) => a - b);
-    })();
+      results.sort((a, b) => a - b);
+      return results;
+    }
+
+    // 偵測改成等頁面所有資源（字型、相簿、背景圖等）都載入完成後才開始，
+    // 避免跟開頁瞬間大量同時發出的其他請求互搶連線，導致明明檔案存在卻誤判逾時失敗。
+    let detectPromise;
+    function startDetection(){
+      detectPromise = detectSurpriseImages().then((results) => {
+        foundImages = results;
+        return results;
+      });
+    }
+    if(document.readyState === 'complete'){
+      startDetection();
+    } else {
+      window.addEventListener('load', startDetection, { once: true });
+    }
 
     async function openWithRandomImage(){
       modalImg.removeAttribute('src');
       modalImg.alt = '載入中…';
       overlay.classList.add('open');
 
-      // 保險起見，就算偵測真的異常卡住，最多也只等 4 秒，不會讓視窗永遠卡在「載入中」
-      await Promise.race([detectPromise, new Promise((r) => setTimeout(r, 4000))]);
+      if(!detectPromise){ startDetection(); }
+      // 保險起見，就算偵測真的異常卡住，最多也只等 6 秒，不會讓視窗永遠卡在「載入中」
+      await Promise.race([detectPromise, new Promise((r) => setTimeout(r, 6000))]);
+
+      // 第一次偵測沒找到任何圖片時，可能只是瞬間的網路狀況，自動再試一次
+      if(!foundImages.length){
+        await Promise.race([detectSurpriseImages().then((r) => { foundImages = r; }), new Promise((r) => setTimeout(r, 6000))]);
+      }
 
       if(foundImages.length){
         const num = foundImages[Math.floor(Math.random() * foundImages.length)];
